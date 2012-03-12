@@ -7,6 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @all_ratings = Movie.ratings
     if !params[:orderby].nil?
       if params[:orderby] == "title"
         @movies = Movie.order("title") 
@@ -16,6 +17,11 @@ class MoviesController < ApplicationController
     else
       @movies = Movie.all    
     end
+    
+    if !params[:ratings].nil?
+      @movies = Movie.find(:all, :conditions => {:rating => params[:ratings].keys})
+    end
+    
   end
 
   def new
